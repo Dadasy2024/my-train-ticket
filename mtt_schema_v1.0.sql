@@ -101,6 +101,18 @@ CREATE TABLE ticket_changes (
     FOREIGN KEY (new_ticket_id) REFERENCES tickets(ticket_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='票务变更记录';
 
+-- 6. 火车票图片表
+CREATE TABLE ticket_images (
+    image_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    ticket_id VARCHAR(20) NOT NULL COMMENT '关联的票号',
+    image_path VARCHAR(255) NOT NULL COMMENT '图片存储路径',
+    image_hash VARCHAR(64) COMMENT '图片哈希值(用于去重)',
+    upload_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '上传时间',
+    is_verified BOOLEAN DEFAULT FALSE COMMENT '是否已验证',
+    FOREIGN KEY (ticket_id) REFERENCES tickets(ticket_id),
+    INDEX idx_ticket_id (ticket_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- 插入示例数据
 -- 车站数据
 -- INSERT INTO stations (station_code, station_name, city, province) VALUES
