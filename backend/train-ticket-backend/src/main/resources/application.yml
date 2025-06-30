@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/train_tickets?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml  # 支持多级目录
+  type-aliases-package: tech.luckyyi.trainticket.entity  # 实体类包名
+  configuration:
+    map-underscore-to-camel-case: true  # 数据库下划线自动转驼峰
+
+# 服务器端口（可选）
+server:
+  port: 8080
