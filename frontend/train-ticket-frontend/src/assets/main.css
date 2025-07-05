@@ -5,7 +5,26 @@
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
+  /* 确保 app 容器不影响子元素的交互 */
+  position: relative;
+  z-index: 1;
 }
+
+/* 为登录页面特殊处理，让背景色全屏 */
+.login-bg {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 0;
+}
+
 
 a,
 .green {
@@ -27,9 +46,11 @@ a,
     place-items: center;
   }
 
+  /* 注释掉以下内容
   #app {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
+  */
 }

@@ -113,6 +113,25 @@ CREATE TABLE ticket_images (
     INDEX idx_ticket_id (ticket_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- 7. 用户表
+CREATE TABLE user (
+    id INT PRIMARY KEY AUTO_INCREMENT,      -- 用户唯一ID
+    username VARCHAR(50) NOT NULL UNIQUE,   -- 登录用户名
+    password VARCHAR(255) NOT NULL,         -- 密码（建议加密存储）
+    role VARCHAR(20) NOT NULL,              -- 角色（如 admin/user）
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 8. 用户-乘客关联表
+CREATE TABLE user_passenger (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,         -- 用户ID
+    passenger_id INT NOT NULL,    -- 乘客ID
+    can_view BOOLEAN DEFAULT 1,   -- 是否有查看权限
+    can_edit BOOLEAN DEFAULT 0,   -- 是否有修改权限
+    UNIQUE(user_id, passenger_id) -- 保证一对关系唯一
+);
+
 -- 插入示例数据
 -- 车站数据
 -- INSERT INTO stations (station_code, station_name, city, province) VALUES

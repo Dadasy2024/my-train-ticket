@@ -1,6 +1,8 @@
 package tech.luckyyi.trainticket.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -12,5 +14,7 @@ import tech.luckyyi.trainticket.entity.Passengers;
  */
 @Mapper
 public interface PassengersMapper extends BaseMapper<Passengers> {
-    // 无需手写方法，BaseMapper 已包含常用 CRUD
+    // 查询用户名和密码是否匹配
+    @Select("SELECT COUNT(*) FROM passengers WHERE username = #{username} AND password = #{password}")
+    Integer countByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 }

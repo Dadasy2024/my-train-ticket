@@ -55,18 +55,11 @@ function onLogin() {
 /* ===================== 页面整体美化 ===================== */
 /* 让背景色全屏且无横向滚动条 */
 .login-bg {
-  min-height: 100vh;           /* 高度占满整个屏幕 */
-  width: 100%;                 /* 宽度100%，避免vw带来的滚动条 */
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
-  position: fixed;             /* 固定定位，确保背景色覆盖整个页面 */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1;                 /* 保证背景在最底层 */
+  /* 全屏样式已在 main.css 中定义，这里只负责布局 */
 }
 
 /* 登录卡片样式：加大宽度，阴影、圆角、宽度适中 */
@@ -76,7 +69,8 @@ function onLogin() {
   width: 500px; /* 加大宽度，适合一行欢迎语 */
   padding: 32px 32px 24px 32px; /* 上、右、下、左的内边距 */
   background: #fff;
-  z-index: 1;
+  position: relative; /* 确保卡片在背景之上 */
+  z-index: 10; /* 层级比背景高 */
 }
 
 /* 标题样式：居中、加粗、单行显示、字号适中 */

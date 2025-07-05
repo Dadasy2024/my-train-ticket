@@ -50,6 +50,17 @@
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
+        <!-- Spring Boot Starter Test：包含JUnit、MockMvc等所有测试相关依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- spring-security-crypto 账号密码加密-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
