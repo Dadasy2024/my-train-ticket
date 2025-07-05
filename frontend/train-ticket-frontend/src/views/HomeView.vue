@@ -2,6 +2,10 @@
 // ===================== 逻辑部分 =====================
 // 引入 Vue 的 ref 函数，用于创建响应式数据
 import { ref } from 'vue'
+// 引入 Element Plus 的消息提示组件
+import { ElMessage } from 'element-plus'
+// 引入登录 API 函数
+import { login, saveLoginInfo } from '@/api/auth'
 
 // 定义一个响应式对象 loginForm，用来存储表单输入的数据
 // ref 让数据变化时页面自动更新
@@ -10,16 +14,53 @@ const loginForm = ref({
   password: ''  // 密码输入框绑定的数据
 })
 
+// 定义登录按钮的加载状态
+const loading = ref(false)
+
 // 定义登录按钮点击时要执行的函数
-// 这里做了简单的前端校验，后续可以对接后端接口
-function onLogin() {
-  // 检查用户名和密码是否都填写了
-  if (loginForm.value.username && loginForm.value.password) {
-    // 如果都填写了，弹出登录成功（这里只是前端演示，后续可以对接后端接口）
-    alert('登录成功！（这里只是前端演示）')
-  } else {
-    // 如果有一项没填，弹出提示
-    alert('请输入用户名和密码')
+// 现在会真正调用后端登录接口
+async function onLogin() {
+  // 前端校验：检查用户名和密码是否都填写了
+  if (!loginForm.value.username || !loginForm.value.password) {
+    ElMessage.error('请输入用户名和密码')
+    return
+  }
+
+  // 设置加载状态，防止重复点击
+  loading.value = true
+
+  try {
+    // 调用后端登录接口
+    const response = await login({
+      username: loginForm.value.username,
+      password: loginForm.value.password
+    })
+
+    // 根据后端返回的状态码判断登录是否成功
+    if (response.code === 0) {
+      // 登录成功
+      ElMessage.success('登录成功！')
+      
+      // 保存登录信息到本地存储（如果有token的话）
+      if (response.data) {
+        saveLoginInfo(response.data)
+      }
+      
+      // 这里可以跳转到主页面或其他页面
+      // 例如：router.push('/dashboard')
+      console.log('登录成功，用户信息：', response.data)
+      
+    } else {
+      // 登录失败，显示后端返回的错误信息
+      ElMessage.error(response.message || '登录失败')
+    }
+  } catch (error) {
+    // 处理异常情况
+    console.error('登录异常：', error)
+    ElMessage.error('登录过程中发生错误，请稍后重试')
+  } finally {
+    // 无论成功还是失败，都要关闭加载状态
+    loading.value = false
   }
 }
 </script>
@@ -42,9 +83,17 @@ function onLogin() {
         <el-form-item label="密码">
           <el-input v-model="loginForm.password" type="password" placeholder="请输入密码" show-password clearable />
         </el-form-item>
-        <!-- 登录按钮：宽度100%，圆角更美观，易于点击 -->
+        <!-- 登录按钮：宽度100%，圆角更美观，易于点击，带加载状态 -->
         <el-form-item>
-          <el-button type="primary" @click="onLogin" class="login-btn">登录</el-button>
+          <el-button 
+            type="primary" 
+            @click="onLogin" 
+            class="login-btn"
+            :loading="loading"
+            :disabled="loading"
+          >
+            {{ loading ? '登录中...' : '登录' }}
+          </el-button>
         </el-form-item>
       </el-form>
     </el-card>
