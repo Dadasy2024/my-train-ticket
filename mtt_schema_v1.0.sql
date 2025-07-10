@@ -39,7 +39,7 @@ CREATE TABLE trains (
 
 -- 4. 车票信息表（主表）
 CREATE TABLE tickets (
-    ticket_id VARCHAR(21) PRIMARY KEY COMMENT '票号',
+    ticket__id VARCHAR(10) PRIMARY KEY COMMENT '票号',
     passenger_id INT NOT NULL COMMENT '乘客ID',
     train_number VARCHAR(10) NOT NULL COMMENT '车次号',
     departure_station_code VARCHAR(10) NOT NULL COMMENT '出发站代码',
@@ -78,6 +78,13 @@ CREATE TABLE tickets (
     carriage_number VARCHAR(5) COMMENT '车厢号',
     ticket_price DECIMAL(10,2) NOT NULL COMMENT '票价',
     ticket_status ENUM('unused', 'used', 'refunded', 'changed') NOT NULL DEFAULT 'unused' COMMENT '票状态',
+    -- 序列号相关字段
+    serial_number VARCHAR(21) NOT NULL COMMENT '完整序列号',
+    serial_station_code VARCHAR(5) NOT NULL COMMENT '序列号-车站代码',
+    serial_channel CHAR(1) NOT NULL COMMENT '序列号-渠道(0窗口/2代售点/3自助)',
+    serial_terminal VARCHAR(4) NOT NULL COMMENT '序列号-终端号',
+    serial_date CHAR(4) NOT NULL COMMENT '序列号-制票系统日期',
+    serial_ticket_no VARCHAR(7) NOT NULL COMMENT '序列号-票号',
     qr_code_path VARCHAR(255) COMMENT '二维码图片路径',
     note TEXT COMMENT '备注',
     FOREIGN KEY (passenger_id) REFERENCES passengers(passenger_id),
